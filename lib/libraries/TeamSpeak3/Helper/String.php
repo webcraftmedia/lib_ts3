@@ -472,7 +472,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
   {
     if(!$this->isUtf8())
     {
-      $this->string = utf8_encode($this->string);
+      $this->string = mb_convert_encoding($this->string, 'UTF-8', 'ISO-8859-1'); //utf8_encode($this->string);
     }
 
     return $this;
@@ -550,7 +550,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
     $utf8_accents = array(
       "à" => "a",
       "ô" => "o",
-      "�?" => "d",
+      "�?" => "d",
       "ḟ" => "f",
       "ë" => "e",
       "š" => "s",
@@ -560,9 +560,9 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
       "ř" => "r",
       "ț" => "t",
       "ň" => "n",
-      "�?" => "a",
+      "�?" => "a",
       "ķ" => "k",
-      "�?" => "s",
+      "�?" => "s",
       "ỳ" => "y",
       "ņ" => "n",
       "ĺ" => "l",
@@ -573,7 +573,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
       "ě" => "e",
       "é" => "e",
       "ç" => "c",
-      "�?" => "w",
+      "�?" => "w",
       "ċ" => "c",
       "õ" => "o",
       "ṡ" => "s",
@@ -591,7 +591,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
       "ŵ" => "w",
       "ṫ" => "t",
       "ū" => "u",
-      "�?" => "c",
+      "�?" => "c",
       "ö" => "oe",
       "è" => "e",
       "ŷ" => "y",
@@ -622,7 +622,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
       "ñ" => "n",
       "ń" => "n",
       "ĥ" => "h",
-      "�?" => "g",
+      "�?" => "g",
       "đ" => "d",
       "ĵ" => "j",
       "ÿ" => "y",
@@ -639,8 +639,8 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
       "ī" => "i",
       "ã" => "a",
       "ġ" => "g",
-      "�?" => "m",
-      "�?" => "o",
+      "�?" => "m",
+      "�?" => "o",
       "ĩ" => "i",
       "ù" => "u",
       "į" => "i",
@@ -700,7 +700,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
       "È" => "E",
       "Ŷ" => "Y",
       "Ą" => "A",
-      "�?" => "L",
+      "�?" => "L",
       "Ų" => "U",
       "Ů" => "U",
       "Ş" => "S",
@@ -712,12 +712,12 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
       "Ḃ" => "B",
       "Å" => "A",
       "Ì" => "I",
-      "�?" => "I",
+      "�?" => "I",
       "Ḋ" => "D",
       "Ť" => "T",
       "Ŗ" => "R",
       "Ä" => "Ae",
-      "�?" => "I",
+      "�?" => "I",
       "Ŕ" => "R",
       "Ê" => "E",
       "Ü" => "Ue",
@@ -727,15 +727,15 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
       "Ń" => "N",
       "Ĥ" => "H",
       "Ĝ" => "G",
-      "�?" => "D",
+      "�?" => "D",
       "Ĵ" => "J",
       "Ÿ" => "Y",
       "Ũ" => "U",
       "Ŭ" => "U",
       "Ư" => "U",
       "Ţ" => "T",
-      "�?" => "Y",
-      "�?" => "O",
+      "�?" => "Y",
+      "�?" => "O",
       "Â" => "A",
       "Ľ" => "L",
       "Ẅ" => "W",
@@ -749,10 +749,10 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
       "Ù" => "U",
       "Į" => "I",
       "Ź" => "Z",
-      "�?" => "A",
+      "�?" => "A",
       "Û" => "U",
       "Þ" => "Th",
-      "�?" => "Dh",
+      "�?" => "Dh",
       "Æ" => "Ae",
       "Ĕ" => "E",
       "Œ" => "Oe",
@@ -856,7 +856,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
   /**
    * @ignore
    */
-  public function count()
+  public function count(): int
   {
     return strlen($this->string);
   }
@@ -864,7 +864,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
   /**
    * @ignore
    */
-  public function rewind()
+  public function rewind(): void
   {
     $this->position = 0;
   }
@@ -872,7 +872,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
   /**
    * @ignore
    */
-  public function valid()
+  public function valid(): bool
   {
     return $this->position < $this->count();
   }
@@ -880,7 +880,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
   /**
    * @ignore
    */
-  public function key()
+  public function key(): mixed
   {
     return $this->position;
   }
@@ -888,15 +888,15 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
   /**
    * @ignore
    */
-  public function current()
+  public function current(): mixed
   {
-    return new TeamSpeak3_Helper_Char($this->string{$this->position});
+    return new TeamSpeak3_Helper_Char($this->string[$this->position]);
   }
 
   /**
    * @ignore
    */
-  public function next()
+  public function next(): void
   {
     $this->position++;
   }
@@ -904,7 +904,7 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
   /**
    * @ignore
    */
-  public function offsetExists($offset)
+  public function offsetExists(mixed $offset) : bool
   {
     return ($offset < strlen($this->string)) ? TRUE : FALSE;
   }
@@ -912,25 +912,25 @@ class TeamSpeak3_Helper_String implements ArrayAccess, Iterator, Countable
   /**
    * @ignore
    */
-  public function offsetGet($offset)
+  public function offsetGet(mixed $offset): mixed
   {
-    return ($this->offsetExists($offset)) ? new TeamSpeak3_Helper_Char($this->string{$offset}) : null;
+    return ($this->offsetExists($offset)) ? new TeamSpeak3_Helper_Char($this->string[$offset]) : null;
   }
 
   /**
    * @ignore
    */
-  public function offsetSet($offset, $value)
+  public function offsetSet(mixed $offset, mixed $value): void
   {
     if(!$this->offsetExists($offset)) return;
 
-    $this->string{$offset} = strval($value);
+    $this->string[$offset] = strval($value);
   }
 
   /**
    * @ignore
    */
-  public function offsetUnset($offset)
+  public function offsetUnset(mixed $offset): void
   {
     if(!$this->offsetExists($offset)) return;
 

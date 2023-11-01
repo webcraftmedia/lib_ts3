@@ -5,7 +5,6 @@ class lib_ts3 extends \LIB\lib_php{
         return self::class;}
     public static function php_autoload(){
         require_once dirname(__FILE__).'/lib/libraries/TeamSpeak3/TeamSpeak3.php';
-        //\TeamSpeak3::autoload('abc');
         \SYSTEM\autoload::registerFunc('TeamSpeak3::autoload');
         return true;}
     public static function version(){
